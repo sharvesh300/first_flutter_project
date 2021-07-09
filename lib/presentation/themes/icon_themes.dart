@@ -10,4 +10,8 @@ class IconThemes {
   static IconData email = FontAwesomeIcons.envelope;
   static IconData phone = FontAwesomeIcons.mobileAlt;
   static IconData userLock = FontAwesomeIcons.userLock;
+  static IconData home = Icons.home;
+  static IconData explore = Icons.explore;
+  static IconData emailIcon = Icons.email;
+  static IconData notification = Icons.notifications;
 }

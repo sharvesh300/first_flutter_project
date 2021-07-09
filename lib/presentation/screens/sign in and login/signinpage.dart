@@ -4,7 +4,7 @@ import 'package:ui_project/data/di/get_it.dart' as getIt;
 import 'package:ui_project/domain/enities/login_params.dart';
 import 'package:ui_project/presentation/cubit/logincubit/cubit/login_cubit.dart';
 import 'package:ui_project/presentation/cubit/signincubit/signincubit_cubit.dart';
-import 'package:ui_project/presentation/themes/home/homepage.dart';
+import 'package:ui_project/presentation/screens/home/homepage.dart';
 import 'package:ui_project/presentation/themes/icon_themes.dart';
 import 'package:ui_project/presentation/widgets/custom_text_field.dart';
 import 'package:ui_project/presentation/widgets/google_and_facebook_button.dart';

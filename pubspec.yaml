@@ -35,6 +35,7 @@ dependencies:
   http: ^0.13.3
   pedantic: ^1.11.1
   flutter_facebook_auth: ^3.5.0
+  curved_navigation_bar: ^1.0.1
 
 dev_dependencies:
   flutter_test:

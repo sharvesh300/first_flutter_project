@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ui_project/domain/enities/verify_otp_enity.dart';
 import 'package:ui_project/presentation/cubit/otp_verify_cubit/cubit/otpverify_cubit.dart';
-import 'package:ui_project/presentation/themes/home/homepage.dart';
-import 'package:ui_project/presentation/widgets/progressDailogue.dart';
+import 'package:ui_project/presentation/screens/home/homepage.dart';
 
 import 'numeric_pad.dart';
 
