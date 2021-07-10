@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ui_project/data/di/get_it.dart';
 import 'package:ui_project/domain/enities/signin_params.dart';
@@ -44,7 +45,7 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         body: BlocConsumer<SignincubitCubit, SignincubitState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is SigninCubitCommonError) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(state.errorMsg),
@@ -57,6 +58,8 @@ class LoginPage extends StatelessWidget {
                     return ProgressDailogue(msg: "Creating account");
                   });
             } else if (state is SigninCubitLoaded) {
+              final storage = new FlutterSecureStorage();
+              await storage.write(key: 'username', value: usernameController.text.trim());
               Navigator.push(context,MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>otpverifyCubit,child: VerifyPhone(phoneNumber: phoneController.text.trim(), token: state.code),)));
             }
             print(state);

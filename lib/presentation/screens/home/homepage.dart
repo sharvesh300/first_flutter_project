@@ -1,6 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 import 'package:ui_project/data/datasources/homepagePost.dart';
 import 'package:ui_project/domain/enities/allPostEntity.dart';
@@ -21,9 +23,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    update();
   }
 
-  void update() async {}
+  void update() async {
+    final storage = FlutterSecureStorage();
+    print(await storage.readAll());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +80,18 @@ class _HomePageState extends State<HomePage> {
           body: state.page == 0
               ? CustomScrollView(slivers: [
                   SliverAppBar(
+                    onStretchTrigger: () async {
+                      BlocProvider.of<HomepagepostsCubit>(context).getPosts();
+                    },
+                    stretch: true,
                     backgroundColor: Colors.grey[100],
                     expandedHeight: 250,
-                    flexibleSpace: FlexibleSpaceBar(background: HomeWidget()),
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: HomeWidget(),
+                      stretchModes: <StretchMode>[
+                        StretchMode.zoomBackground,
+                      ],
+                    ),
                   ),
                   states is HomePagePostsLoded
                       ? SliverStaggeredGrid.countBuilder(
@@ -85,7 +100,8 @@ class _HomePageState extends State<HomePage> {
                           crossAxisCount: 1,
                           itemBuilder: (context, index) {
                             return PostWidget(
-                                username: states.posts[index].username);
+                                username: states.posts[index].username,
+                                image: states.posts[index].image);
                           },
                         )
                       : SliverToBoxAdapter(
@@ -137,18 +153,21 @@ class AddAndFriends extends StatelessWidget {
 class PostWidget extends StatelessWidget {
   PostWidget({
     Key? key,
+    required this.image,
     required this.username,
   }) : super(key: key);
   final String username;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 28.0),
       child: Container(
-          height: 230,
+          height: 350,
           color: Colors.white,
-          child: Column(children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Container(
                 height: 70,
                 child: Row(children: [
@@ -165,8 +184,25 @@ class PostWidget extends StatelessWidget {
                     child: Text(username,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
-                  )
-                ]))
+                  ),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.50),
+                  IconButton(icon: Icon(Icons.more_vert), onPressed: () {})
+                ])),
+            Container(
+                height: 230,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(image), fit: BoxFit.cover))),
+            Row(
+              children: [
+                IconButton(
+                    icon: FaIcon(FontAwesomeIcons.heart), onPressed: () {}),
+                SizedBox(width: 5),
+                Text("2.6K", style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.70),
+                FaIcon(FontAwesomeIcons.share)
+              ],
+            )
           ])),
     );
   }

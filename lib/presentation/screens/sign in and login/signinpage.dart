@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ui_project/data/di/get_it.dart' as getIt;
 import 'package:ui_project/domain/enities/login_params.dart';
 import 'package:ui_project/presentation/cubit/bottomnavbar_cubit/cubit/bottomnavbarcubit_cubit.dart';
@@ -30,7 +31,7 @@ class SigninPage extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.grey[100],
         body: BlocConsumer<LoginCubit, LoginState>(
-          listener: (context, state) {
+          listener: (context, state)  async {
             print(state);
             if (state is LoginLoading) {
               showDialog(
@@ -43,13 +44,18 @@ class SigninPage extends StatelessWidget {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.errorMsg)));
             } else if (state is LoginSuccess) {
+                final storage = new FlutterSecureStorage();
+              await storage.write(key: 'username', value: state.username);
+              await storage.write(key: 'userEmail', value: state.userEmail);
+              await storage.write(key: 'id', value: state.id);
+
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => MultiBlocProvider(
                             providers: [
                               BlocProvider(
-                                create:(context)=>homepageCubit,
+                                create: (context) => homepageCubit,
                               ),
                               BlocProvider(
                                 create: (context) => bottomCubit,

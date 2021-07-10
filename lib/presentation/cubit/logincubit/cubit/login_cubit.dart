@@ -24,12 +24,12 @@ class LoginCubit extends Cubit<LoginState> {
       final usecase = await useCase(params);
 
       usecase.fold((l) => emit(LoginApiError(errorMsg: l.errorMsg)),
-          (r) => emit(LoginSuccess()));
+          (r) => emit(LoginSuccess(username:r.username,id:"djbfwdhfdew85493248329dew",userEmail: r.email)));
     }
   }
     Future<void> googleSignin() async {
     final googleSignin = await googleUseCase();
     googleSignin.fold((l) => emit(LoginApiError(errorMsg: l.errorMsg)),
-        (r) => emit(LoginSuccess()));
+        (r) => emit(LoginSuccess(username: r!.displayName,id:r.id,userEmail:r.email)));
   }
 }

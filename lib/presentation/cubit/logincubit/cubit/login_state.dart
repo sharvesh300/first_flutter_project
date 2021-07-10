@@ -1,8 +1,8 @@
 part of 'login_cubit.dart';
 
-abstract class LoginState extends Equatable{
+abstract class LoginState extends Equatable {
   const LoginState();
-@override
+  @override
 // TODO: implement props
   List<Object?> get props => [];
 }
@@ -29,6 +29,11 @@ class LoginPasswordError extends LoginState {
   LoginPasswordError({required this.errorMsg});
 }
 
-class LoginSuccess extends LoginState{
-  
+class LoginSuccess extends LoginState {
+  final String? username;
+  final String userEmail;
+  String? phone;
+  final String id;
+
+  LoginSuccess({required this.username, required this.userEmail, required this.id,this.phone});
 }
