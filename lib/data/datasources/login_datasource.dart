@@ -14,6 +14,8 @@ class LoginDataSourceImpl extends LoginDataSource {
   Client _client;
   LoginDataSourceImpl(this._client);
 
+  @override
+
   Future<UserModel> login(LoginParams params) async {
     final response = await _client.post(Uri.parse(
         "${URL_CONSTANT.API_LOGIN}?email=${params.email}&password=${params.password}"));

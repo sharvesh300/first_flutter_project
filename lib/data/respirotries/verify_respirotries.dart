@@ -9,6 +9,7 @@ class VerifyRespirotries extends VerifyOtpRespirotries{
   VerifyOtpDataSource dataSource;
   VerifyRespirotries(this.dataSource);
 
+  @override
   Future<Either<AppError, UserModel>> verify(VerifyEntity verifyParams) async {
     try {
       return Right(await dataSource.signin(verifyParams));

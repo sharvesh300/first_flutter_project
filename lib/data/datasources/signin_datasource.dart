@@ -15,6 +15,8 @@ class SigninDataSourceImpl extends SigninDatasource {
   GoogleSignIn googleSignIn;
   SigninDataSourceImpl(this._client, this.googleSignIn);
 
+  @override
+
   Future<ResponseModel> signin(SigninParams params) async {
     final response = await _client.post(Uri.parse(
         '${URL_CONSTANT.API_SIGNIN}?email=${params.email}&password=${params.password}&phone=${params.phone}&username=${params.username}'));
@@ -28,6 +30,7 @@ class SigninDataSourceImpl extends SigninDatasource {
       throw error;
     }
   }
+  @override
 
   Future<GoogleSignInAccount?> googleSignin() async {
     final user = await googleSignIn.signIn();

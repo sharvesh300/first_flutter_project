@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ui_project/data/di/get_it.dart' as getIt;
 import 'package:ui_project/domain/enities/login_params.dart';
+import 'package:ui_project/presentation/cubit/bottomnavbar_cubit/cubit/bottomnavbarcubit_cubit.dart';
+import 'package:ui_project/presentation/cubit/homepageCubit/cubit/homepageposts_cubit.dart';
 import 'package:ui_project/presentation/cubit/logincubit/cubit/login_cubit.dart';
 import 'package:ui_project/presentation/cubit/signincubit/signincubit_cubit.dart';
 import 'package:ui_project/presentation/screens/home/homepage.dart';
@@ -18,6 +20,10 @@ class SigninPage extends StatelessWidget {
   final SignincubitCubit cubit = getIt.getInstance<SignincubitCubit>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final BottomnavbarcubitCubit bottomCubit =
+      getIt.getInstance<BottomnavbarcubitCubit>();
+  final HomepagepostsCubit homepageCubit =
+      getIt.getInstance<HomepagepostsCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,19 @@ class SigninPage extends StatelessWidget {
                   .showSnackBar(SnackBar(content: Text(state.errorMsg)));
             } else if (state is LoginSuccess) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create:(context)=>homepageCubit,
+                              ),
+                              BlocProvider(
+                                create: (context) => bottomCubit,
+                              ),
+                            ],
+                            child: HomePage(),
+                          )));
             }
           },
           builder: (context, state) {
@@ -129,8 +147,9 @@ class SigninPage extends StatelessWidget {
                               icon: IconThemes.facebook,
                               onTap: () async {
 // or FacebookAuth.i.permission
-                                final LoginResult result =await FacebookAuth.instance.login();
-                            
+                                final LoginResult result =
+                                    await FacebookAuth.instance.login();
+
                                 if (result.status == LoginStatus.success) {
                                   final AccessToken accessToken =
                                       result.accessToken!;

@@ -10,6 +10,7 @@ class LoginRespirotryImpl extends LoginRespirotry{
 
   LoginRespirotryImpl(this.dataSource);
 
+  @override
   Future<Either<AppError, UserModel>> login(LoginParams params) async {
     try {
       return Right(await dataSource.login(params));

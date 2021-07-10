@@ -10,6 +10,8 @@ import 'package:ui_project/domain/respirotries/signin_respirotries.dart';
 class SigninRespirotriesImpl extends SigninRespirotries {
   SigninDatasource dataSource;
   SigninRespirotriesImpl(this.dataSource);
+  
+  @override
 
   Future<Either<AppError, ResponseModel>> singin(SigninParams params) async {
     try {
@@ -19,7 +21,7 @@ class SigninRespirotriesImpl extends SigninRespirotries {
       return Left(AppError(errorMsg: e.toString()));
     }
   }
-
+  @override
   Future<Either<AppError, GoogleSignInAccount?>> googleSignin() async {
     try {
       final googleSignin = await dataSource.googleSignin();
